@@ -58,15 +58,19 @@ function launchInquirer() {
                 launchInquirer();
             } else if (response.selectTask === "Add a Department") {
                 //another inquirer prompt question asking for the name of department, then add that dept to the table
+                inqAddDept();
                 //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else if (response.selectTask === "Add a Role") {
                 //launch another inquirer function that asks for the name, salary, and department for the role and that role is added to the database
+                inqAddRole();
                 //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else if (response.selectTask === "Add an Employee") {
                 //launch a different inquirer function that asks for the employee’s first name, last name, role, and manager, and that employee is added to the database
+                inqAddEmployee();
                 //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else if (response.selectTask === "Update an Employee Role") {
                 //launch a inquirer function that prompts us to select an employee to update, then asks for their new role (another selection list), then updates the database
+                inqUpdateEmployeeRole();
                 //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else {
                 console.log("Error (launchInquirer func): There was an issue with your selection, please select which task you would like to do again.");
@@ -195,6 +199,9 @@ function inqUpdateEmployeeRole () {
 };
 
 //upon app launching, create an array that is populated with all employee anmes from the employee table (this is not necessary if we just put it under the respective functions)
+
+//launch launchInquirer immediately
+launchInquirer();
 
 //app.listen
 app.listen(PORT, () => console.log("The server is up and running!"));
