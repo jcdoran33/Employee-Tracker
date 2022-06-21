@@ -23,7 +23,7 @@ const db = mysql.createConnection(
         host: "127.0.0.1",
         user: "root",
         password: "password",
-        database: "name_here" //need to come back and change this once db is created
+        database: "employees_db" //need to come back and change this once db is created
     },
     console.log("Connected to the database")
     );
