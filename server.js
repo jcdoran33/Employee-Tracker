@@ -28,7 +28,26 @@ const db = mysql.createConnection(
     console.log("Connected to the database")
     )
 
-//app.get(s) here
+
+//inquirer launch here (wrap it in a function?)
+function launchInquirer() {
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "What would you like to do?",
+                name: "selectTask",
+                choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update an Employee Role"]
+            }
+        ])
+        .then((response) => {
+            
+        })
+
+
+};
+
+//app.get(s) here?
 
 //app.listen
 app.listen(PORT, () => console.log("The server is up and running!"));
