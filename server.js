@@ -1,6 +1,12 @@
 // requirements
+//Express
 const express = require("express");
+//Mysql
 const mysql = require("mysql2");
+//Inquirer
+const inquirer = require("inquirer");
+//console.table
+const cTable = require("console.table");
 
 //PORT
 const PORT = process.env.PORT || 3001;
