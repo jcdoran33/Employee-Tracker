@@ -123,6 +123,7 @@ function inqAddRole () {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee () {
+    //HERE is where we should create a variable that is equal to all current employees that are managers
     inquirer
         prompt ([
             {
@@ -150,7 +151,7 @@ function inqAddEmployee () {
         ])
         .then((response) => {
             //sql function that adds new row to employee table with appropriate info, using ? format
-            // add new employee to array that houses all employees
+            // add new employee to array that houses all employees??
         })
         .then(() => launchInquirer());
         //relaunch launchInquirer();
@@ -158,8 +159,27 @@ function inqAddEmployee () {
 
 //define inquirer prompt for Update an Employee Role
 function inqUpdateEmployeeRole () {
-    
-    //relaunch launchInquirer();
+    //HERE is where we create variable that is an array of all current employees (so it will redefine the variable each time it is called upon)
+    inquirer
+        prompt([
+            {
+                type: "list",
+                message: "Select an employee to change their role",
+                name: "empNewRoleSelect",
+                choices: ["Example"] // need to replace this with a variable that represents all current employees
+            },
+            {
+                type: "list",
+                message: "Select the employee's new role",
+                name: "empNewRoleRole",
+                choices: ["Sales", "Finance", "Marketing", "Engineering", "Legal"]
+            }
+        ])
+        .then((response) => {
+            //sql function that edits the chosen employee's row with new role
+        })
+        .then(() => launchInquirer());
+        //relaunch launchInquirer();
 };
 
 //upon app launching, create an array that is populated with all employee anmes from the employee table
