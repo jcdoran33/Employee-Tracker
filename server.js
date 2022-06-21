@@ -95,8 +95,29 @@ function inqAddDept () {
 
 //define inquirer prompt for Add a Role
 function inqAddRole () {
-
+    inquirer
+        prompt([
+            {
+                type: "input",
+                message: "Enter the name of the new role",
+                name: "roleName"
+            },
+            {
+                type: "input",
+                message: "Enter the salary for this new role",
+                name: "roleSalary"
+            },
+            {
+                type: "input",
+                message: "Enter the department this role will fall under",
+                name: "roleDept"
+            }
+        ])
+        .then((response) => {
+            //sql function(s) that will add all the info to the "role" table
+        });
     //relaunch launchInquirer();
+    launchInquirer();
 };
 
 //define inquirer prompt for Add an Employee
