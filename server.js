@@ -12,7 +12,15 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 //make db const connection to database
-
+const db = mysql.createConnection(
+    {
+        host: "127.0.0.1",
+        user: "root",
+        password: "password",
+        database: "name_here"
+    },
+    console.log("Connected to the database")
+    )
 
 //app.get(s) here
 
