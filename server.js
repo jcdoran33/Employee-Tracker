@@ -71,8 +71,29 @@ function launchInquirer() {
 
 
 };
+//==========================================
+// define additional inquirer functions here
+//define inquirer prompt for Add a Department
+function inqAddDept () {
 
-//app.get(s) here?
+};
+
+//define inquirer prompt for Add a Role
+function inqAddRole () {
+
+};
+
+//define inquirer prompt for Add an Employee
+function inqAddEmployee () {
+
+};
+
+//define inquirer prompt for Update an Employee Role
+function inqUpdateEmployeeRole () {
+
+};
+
+
 
 //app.listen
 app.listen(PORT, () => console.log("The server is up and running!"));
