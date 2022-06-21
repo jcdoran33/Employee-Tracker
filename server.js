@@ -28,6 +28,8 @@ const db = mysql.createConnection(
     console.log("Connected to the database")
     );
 
+//create explicit call to connect to db here
+db.connect();
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -123,7 +125,17 @@ function inqAddRole () {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee () {
-    //HERE is where we should create a variable that is equal to all current employees that are managers
+    //HERE is where we should create a variable that is equal to all current employees that are managers (or, really, just all current employee names would be better. There is no designation for manager t/f anywhere)
+    db.query(`SELECT CONCAT('first_name', ' ' ,'last_name') as full_name FROM employee`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(results);
+        console.log(typeof results);
+        // return results.json()
+
+    })
+
     inquirer
         prompt ([
             {
@@ -172,7 +184,7 @@ function inqUpdateEmployeeRole () {
                 type: "list",
                 message: "Select the employee's new role",
                 name: "empNewRoleRole",
-                choices: ["Sales", "Finance", "Marketing", "Engineering", "Legal"]
+                choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
             }
         ])
         .then((response) => {
@@ -182,7 +194,7 @@ function inqUpdateEmployeeRole () {
         //relaunch launchInquirer();
 };
 
-//upon app launching, create an array that is populated with all employee anmes from the employee table
+//upon app launching, create an array that is populated with all employee anmes from the employee table (this is not necessary if we just put it under the respective functions)
 
 //app.listen
 app.listen(PORT, () => console.log("The server is up and running!"));
