@@ -88,9 +88,9 @@ function inqAddDept () {
         .then((response) => {
             //sql function that adds a new row to the "department" table - use ? format for vars
             console.log(`Success! Your new department ${response.deptName} has been added to the departments table.`);
-        });
-    //relaunch launchInquirer();
-    launchInquirer();
+        })
+        .then(() => launchInquirer());
+        //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Add a Role
@@ -116,9 +116,9 @@ function inqAddRole () {
         ])
         .then((response) => {
             //sql function(s) that will add all the info to the "role" table, use ? for vars
-        });
-    //relaunch launchInquirer();
-    launchInquirer();
+        })
+        .then(() => launchInquirer());
+        //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Add an Employee
@@ -150,15 +150,15 @@ function inqAddEmployee () {
         ])
         .then((response) => {
             //sql function that adds new row to employee table with appropriate info, using ? format
+            // add new employee to array that houses all employees
         })
-    // add new employee to array that houses all employees
-    //relaunch launchInquirer();
-    launchInquirer();
+        .then(() => launchInquirer());
+        //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Update an Employee Role
 function inqUpdateEmployeeRole () {
-
+    
     //relaunch launchInquirer();
 };
 
