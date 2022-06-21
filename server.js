@@ -86,7 +86,7 @@ function inqAddDept () {
             }
         ])
         .then((response) => {
-            //sql function that adds a new row to the "department" table
+            //sql function that adds a new row to the "department" table - use ? format for vars
             console.log(`Success! Your new department ${response.deptName} has been added to the departments table.`);
         });
     //relaunch launchInquirer();
@@ -108,13 +108,14 @@ function inqAddRole () {
                 name: "roleSalary"
             },
             {
-                type: "input",
+                type: "list",
                 message: "Enter the department this role will fall under",
-                name: "roleDept"
+                name: "roleDept",
+                choices: ["Sales", "Finance", "Marketing", "Engineering", "Legal"] // need to fill in this array with role choices
             }
         ])
         .then((response) => {
-            //sql function(s) that will add all the info to the "role" table
+            //sql function(s) that will add all the info to the "role" table, use ? for vars
         });
     //relaunch launchInquirer();
     launchInquirer();
@@ -122,8 +123,37 @@ function inqAddRole () {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee () {
-
+    inquirer
+        prompt ([
+            {
+                type: "input",
+                message: "What is the new employee's first name?",
+                name: "empFirstName"
+            },
+            {
+                type: "input",
+                message: "What is the new employee's last name?",
+                name: "empLastName"
+            },
+            {
+                type: "list",
+                message: "What is the new employee's role?",
+                name: "empRole",
+                choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
+            },
+            {
+                type: "list",
+                message: "Who will be the new employee's manager?",
+                name: "empManager",
+                choices: ["Manager A", "Manager B"] // this should be a variable defined glbally, that houses all the employee names that are in the db, so we can select one
+            }
+        ])
+        .then((response) => {
+            //sql function that adds new row to employee table with appropriate info, using ? format
+        })
+    // add new employee to array that houses all employees
     //relaunch launchInquirer();
+    launchInquirer();
 };
 
 //define inquirer prompt for Update an Employee Role
@@ -132,7 +162,7 @@ function inqUpdateEmployeeRole () {
     //relaunch launchInquirer();
 };
 
-
+//upon app launching, create an array that is populated with all employee anmes from the employee table
 
 //app.listen
 app.listen(PORT, () => console.log("The server is up and running!"));
