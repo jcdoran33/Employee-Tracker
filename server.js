@@ -84,7 +84,7 @@ function launchInquirer() {
 //define inquirer prompt for Add a Department
 function inqAddDept () {
     inquirer
-        prompt([
+        .prompt([
             {
                 type: "input",
                 message: "Please enter the name of the department you would like to add",
@@ -102,7 +102,7 @@ function inqAddDept () {
 //define inquirer prompt for Add a Role
 function inqAddRole () {
     inquirer
-        prompt([
+        .prompt([
             {
                 type: "input",
                 message: "Enter the name of the new role",
@@ -141,7 +141,7 @@ function inqAddEmployee () {
     })
 
     inquirer
-        prompt ([
+        .prompt ([
             {
                 type: "input",
                 message: "What is the new employee's first name?",
@@ -177,7 +177,7 @@ function inqAddEmployee () {
 function inqUpdateEmployeeRole () {
     //HERE is where we create variable that is an array of all current employees (so it will redefine the variable each time it is called upon)
     inquirer
-        prompt([
+        .prompt([
             {
                 type: "list",
                 message: "Select an employee to change their role",
