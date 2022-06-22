@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 //Express - middleware
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //make db const connection to database
@@ -26,7 +26,7 @@ const db = mysql.createConnection(
         database: "employees_db" //need to come back and change this once db is created
     },
     console.log("Connected to the database")
-    );
+);
 
 //create explicit call to connect to db here
 db.connect();
@@ -82,7 +82,7 @@ function launchInquirer() {
 //==========================================
 // define additional inquirer functions here
 //define inquirer prompt for Add a Department
-function inqAddDept () {
+function inqAddDept() {
     inquirer
         .prompt([
             {
@@ -96,11 +96,11 @@ function inqAddDept () {
             console.log(`Success! Your new department ${response.deptName} has been added to the departments table.`);
         })
         .then(() => launchInquirer());
-        //relaunch launchInquirer();
+    //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Add a Role
-function inqAddRole () {
+function inqAddRole() {
     inquirer
         .prompt([
             {
@@ -124,57 +124,82 @@ function inqAddRole () {
             //sql function(s) that will add all the info to the "role" table, use ? for vars
         })
         .then(() => launchInquirer());
-        //relaunch launchInquirer();
+    //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Add an Employee
-function inqAddEmployee () {
+function inqAddEmployee() {
     //HERE is where we should create a variable that is equal to all current employees that are managers (or, really, just all current employee names would be better. There is no designation for manager t/f anywhere)
-    db.query(`SELECT CONCAT('first_name', ' ' ,'last_name') as full_name FROM employee`, function (err, results) {
-        if (err) {
-            console.log(err);
-        }
-        console.log(results);
-        console.log(typeof results);
-        // return results.json()
+    // db.query(`SELECT CONCAT(first_name, ' ' ,last_name) as full_name FROM employee`, function (err, results) {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     console.log(results);
+    //     console.log(typeof results);
+    //     // return results.json()
 
-    })
-
-    inquirer
-        .prompt ([
-            {
-                type: "input",
-                message: "What is the new employee's first name?",
-                name: "empFirstName"
-            },
-            {
-                type: "input",
-                message: "What is the new employee's last name?",
-                name: "empLastName"
-            },
-            {
-                type: "list",
-                message: "What is the new employee's role?",
-                name: "empRole",
-                choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
-            },
-            {
-                type: "list",
-                message: "Who will be the new employee's manager?",
-                name: "empManager",
-                choices: ["Manager A", "Manager B"] // this should be a variable defined glbally, that houses all the employee names that are in the db, so we can select one
-            }
-        ])
-        .then((response) => {
-            //sql function that adds new row to employee table with appropriate info, using ? format
-            // add new employee to array that houses all employees??
+    // })
+    //commented out above to try asyn /promise version below
+    db.promise().query(`SELECT CONCAT(first_name, ' ' ,last_name) as full_name FROM employee`)
+        .then(
+            (
+                // err, 
+                results) => {
+            // if (err) {
+            //     console.log("Error: ",err);
+            // } 
+            console.log("Query results: ",results);
+            console.log("Results type: ", typeof results);
+            const employeeListObj = results;
+            console.log("emplyeeListObj: ", employeeListObj);
+            console.log("typeof employeeListObj: ", typeof employeeListObj );
+            const employeeListArr = Object.values(employeeListObj).map((x)=> x);
+            console.log("Check for content of employeeListArr: ", employeeListArr);
+            console.log("Type of employeeListArr: ", typeof employeeListArr);
+            return employeeListArr;
+            
         })
-        .then(() => launchInquirer());
-        //relaunch launchInquirer();
+        .then(
+            inquirer
+                .prompt([
+                    {
+                        type: "input",
+                        message: "What is the new employee's first name?",
+                        name: "empFirstName"
+                    },
+                    {
+                        type: "input",
+                        message: "What is the new employee's last name?",
+                        name: "empLastName"
+                    },
+                    {
+                        type: "list",
+                        message: "What is the new employee's role?",
+                        name: "empRole",
+                        choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
+                    },
+                    {
+                        type: "list",
+                        message: "Who will be the new employee's manager?",
+                        name: "empManager",
+                        choices: ["Manager"] // this should be a variable array, that houses all the employee names that are in the db, so we can select one
+                    }
+                ])
+        )//closing parentheses for the new .then in line 153
+        .then((response) => {
+            //insert sql function that adds new row to employee table with appropriate info, using ? format
+            // add new employee to array that houses all employees??
+            return;
+        })
+        .then(() => launchInquirer())
+        .catch((err) => {
+            console.log("ERROR MESSAGE: ", err);
+        });
+    //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Update an Employee Role
-function inqUpdateEmployeeRole () {
+function inqUpdateEmployeeRole() {
     //HERE is where we create variable that is an array of all current employees (so it will redefine the variable each time it is called upon)
     inquirer
         .prompt([
@@ -195,7 +220,7 @@ function inqUpdateEmployeeRole () {
             //sql function that edits the chosen employee's row with new role
         })
         .then(() => launchInquirer());
-        //relaunch launchInquirer();
+    //relaunch launchInquirer();
 };
 
 //upon app launching, create an array that is populated with all employee anmes from the employee table (this is not necessary if we just put it under the respective functions)
