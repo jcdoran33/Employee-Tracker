@@ -18,4 +18,10 @@ VALUES
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES  
-    ("Jack", "Doran", 6, null)
+    ("Jack", "Doran", 6, null),
+    ("Bill", "Gates", 2, 1),
+    ("Steve", "Jobs", 5, 2),
+    ("Lady", "Gaga", 3, 1),
+    ("Kathy", "Bates", 1, 1),
+    ("Harry", "Potter", 3, 2),
+    ("Albus", "Dumbledore", 7, 6);
