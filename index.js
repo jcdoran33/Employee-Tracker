@@ -34,8 +34,13 @@ function launchInquirer() {
 
             } else if (response.selectTask === "View All Roles") {
                 //some code here that queries for viewing roles
-                //then relaunch the prompt from start - launchInquirer();
-                launchInquirer();
+                db.viewAllRoles()
+                .then(([allRoles]) => {
+                    console.table(allRoles);
+                    //then relaunch the prompt from start - launchInquirer();
+                    launchInquirer();
+                })
+                
             } else if (response.selectTask === "View All Employees") {
                 //some code here that queries for All EMployees
                 //then relaunch the prompt from start - launchInquirer();
