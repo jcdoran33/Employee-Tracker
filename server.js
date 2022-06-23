@@ -43,9 +43,12 @@ function launchInquirer() {
             }
         ])
         //think about converting the below IF conditions to a switch statement
-        .then((response) => {
+        .then(async (response) => {
             if (response.selectTask === "View All Departments") {
                 //some code here that runs a query that shows the desired table - probably db.query
+                const viewDepts = await db.promise().query(`SELECT * FROM department;`);
+                // console.log(viewDepts, typeof viewDepts);
+                console.table(viewDepts);
                 //then relaunch the prompt from start - launchInquirer();
                 launchInquirer();
             } else if (response.selectTask === "View All Roles") {
@@ -122,6 +125,7 @@ function inqAddRole() {
         ])
         .then((response) => {
             //sql function(s) that will add all the info to the "role" table, use ? for vars
+            console.log(`Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.`);
         })
         .then(() => launchInquirer());
     //relaunch launchInquirer();
@@ -223,7 +227,6 @@ function inqUpdateEmployeeRole() {
     //relaunch launchInquirer();
 };
 
-//upon app launching, create an array that is populated with all employee anmes from the employee table (this is not necessary if we just put it under the respective functions)
 
 //launch launchInquirer immediately
 launchInquirer();
