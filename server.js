@@ -9,22 +9,6 @@ const cTable = require("console.table");
 
 const db = require("./db");
 
-// //PORT
-// const PORT = process.env.PORT || 3001;
-// //define app as express()
-// const app = express();
-
-// //Express - middleware
-// app.use(express.urlencoded({ extended: false }));
-// app.use(express.json());
-
-//make db const connection to database
-
-
-
-//create explicit call to connect to db here
-// db.connect();
-
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
     inquirer
