@@ -1,6 +1,5 @@
 // requirements
 //Express
-const express = require("express");
 //Mysql
 const mysql = require("mysql2");
 //Inquirer
@@ -8,28 +7,23 @@ const inquirer = require("inquirer");
 //console.table
 const cTable = require("console.table");
 
-//PORT
-const PORT = process.env.PORT || 3001;
-//define app as express()
-const app = express();
+const db = require("./db");
 
-//Express - middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// //PORT
+// const PORT = process.env.PORT || 3001;
+// //define app as express()
+// const app = express();
+
+// //Express - middleware
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
 //make db const connection to database
-const db = mysql.createConnection(
-    {
-        host: "127.0.0.1",
-        user: "root",
-        password: "password",
-        database: "employees_db" //need to come back and change this once db is created
-    },
-    console.log("Connected to the database")
-);
+
+
 
 //create explicit call to connect to db here
-db.connect();
+// db.connect();
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -46,11 +40,14 @@ function launchInquirer() {
         .then(async (response) => {
             if (response.selectTask === "View All Departments") {
                 //some code here that runs a query that shows the desired table - probably db.query
-                const viewDepts = await db.promise().query(`SELECT * FROM department;`);
-                // console.log(viewDepts, typeof viewDepts);
-                console.table(viewDepts);
-                //then relaunch the prompt from start - launchInquirer();
-                launchInquirer();
+                db.findAllDepartments()
+                .then(([viewDepts]) => {
+                    // console.log(viewDepts, typeof viewDepts);
+                    console.table(viewDepts);
+                    //then relaunch the prompt from start - launchInquirer();
+                    launchInquirer();
+                })
+
             } else if (response.selectTask === "View All Roles") {
                 //some code here that queries for viewing roles
                 //then relaunch the prompt from start - launchInquirer();
@@ -144,26 +141,13 @@ function inqAddEmployee() {
 
     // })
     //commented out above to try asyn /promise version below
-    db.promise().query(`SELECT CONCAT(first_name, ' ' ,last_name) as full_name FROM employee`)
-        .then(
-            (
-                // err, 
-                results) => {
-            // if (err) {
-            //     console.log("Error: ",err);
-            // } 
-            console.log("Query results: ",results);
-            console.log("Results type: ", typeof results);
-            const employeeListObj = results;
-            console.log("emplyeeListObj: ", employeeListObj);
-            console.log("typeof employeeListObj: ", typeof employeeListObj );
-            const employeeListArr = Object.values(employeeListObj).map((x)=> x);
-            console.log("Check for content of employeeListArr: ", employeeListArr);
-            console.log("Type of employeeListArr: ", typeof employeeListArr);
-            return employeeListArr;
+    db.findAllEmp()
+        .then(([results]) => {
+            const managerOptions = results.map(({id, first_name, last_name}) => ({
+                name: `${first_name} ${last_name}`,
+                value: id
+            }))
             
-        })
-        .then(
             inquirer
                 .prompt([
                     {
@@ -186,20 +170,30 @@ function inqAddEmployee() {
                         type: "list",
                         message: "Who will be the new employee's manager?",
                         name: "empManager",
-                        choices: ["Manager"] // this should be a variable array, that houses all the employee names that are in the db, so we can select one
+                        choices: managerOptions // this should be a variable array, that houses all the employee names that are in the db, so we can select one
                     }
                 ])
-        )//closing parentheses for the new .then in line 153
+        //closing parentheses for the new .then in line 153
         .then((response) => {
+
+            let newEmp = {
+                first_name: response.empFirstName, 
+                last_name: response.empLastName,
+                //role: response.empRole, // change to ID instead of role name
+                manager_id: response.empManager
+            }
+            db.addNewEmp(newEmp);
+
             //insert sql function that adds new row to employee table with appropriate info, using ? format
             // add new employee to array that houses all employees??
-            return;
+            
         })
         .then(() => launchInquirer())
         .catch((err) => {
             console.log("ERROR MESSAGE: ", err);
         });
     //relaunch launchInquirer();
+})
 };
 
 //define inquirer prompt for Update an Employee Role
@@ -231,5 +225,5 @@ function inqUpdateEmployeeRole() {
 //launch launchInquirer immediately
 launchInquirer();
 
-//app.listen
-app.listen(PORT, () => console.log("The server is up and running!"));
+// //app.listen
+// app.listen(PORT, () => console.log("The server is up and running!"));
