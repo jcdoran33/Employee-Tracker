@@ -32,7 +32,7 @@ function launchInquirer() {
 
             } else if (response.selectTask === "View All Employees") {
                 //launch module function that will trigger query, and relaunch main prompt after
-                    modViewAllEmployees();
+                modViewAllEmployees();
 
             } else if (response.selectTask === "Add a Department") {
                 //another inquirer prompt question asking for the name of department, then add that dept to the table
@@ -108,17 +108,6 @@ function inqAddRole() {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee() {
-    //HERE is where we should create a variable that is equal to all current employees that are managers (or, really, just all current employee names would be better. There is no designation for manager t/f anywhere)
-    // db.query(`SELECT CONCAT(first_name, ' ' ,last_name) as full_name FROM employee`, function (err, results) {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     console.log(results);
-    //     console.log(typeof results);
-    //     // return results.json()
-
-    // })
-    //commented out above to try asyn /promise version below
     db.findAllEmp()
         .then(([results]) => {
             const managerOptions = results.map(({ id, first_name, last_name }) => ({
@@ -151,7 +140,6 @@ function inqAddEmployee() {
                         choices: managerOptions // this should be a variable array, that houses all the employee names that are in the db, so we can select one
                     }
                 ])
-                //closing parentheses for the new .then in line 153
                 .then((response) => {
 
                     let newEmp = {
@@ -161,16 +149,11 @@ function inqAddEmployee() {
                         manager_id: response.empManager
                     }
                     db.addNewEmp(newEmp);
-
-                    //insert sql function that adds new row to employee table with appropriate info, using ? format
-                    // add new employee to array that houses all employees??
-
                 })
                 .then(() => launchInquirer())
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
                 });
-            //relaunch launchInquirer();
         })
 };
 

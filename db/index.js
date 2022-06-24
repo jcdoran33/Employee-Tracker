@@ -20,6 +20,10 @@ class DB {
     addNewDept () {
         return this.connection.promise().query(`INSERT INTO department SET ?`, newDept);
     };
+    //query to create a list of all current roles to be refrenced as choices by inquirer
+    findAllRoles () {
+        return this.connection.promise().query(`SELECT title FROM role;`);
+    };
     //query to find all employee's id, firrst anme, last name, (for use in selecting a manager form drop down list.)
     findAllEmp () {
         return this.connection.promise().query(`SELECT id, first_name, last_name FROM employee;`)
