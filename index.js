@@ -23,34 +23,15 @@ function launchInquirer() {
         //think about converting the below IF conditions to a switch statement
         .then(async (response) => {
             if (response.selectTask === "View All Departments") {
-                //some code here that runs a query that shows the desired table - probably db.query
-                // db.viewAllDepartments()
-                //     .then(([viewDepts]) => {
-                //         // console.log(viewDepts, typeof viewDepts);
-                //         console.table(viewDepts);
-                //         //then relaunch the prompt from start - launchInquirer();
-                //         launchInquirer();
-                //     });
+                //launch module function that will trigger query, and relaunch main prompt after
                 modViewAllDepts();
 
             } else if (response.selectTask === "View All Roles") {
-                //some code here that queries for viewing roles
-                // db.viewAllRoles()
-                //     .then(([allRoles]) => {
-                //         console.table(allRoles);
-                //         //then relaunch the prompt from start - launchInquirer();
-                //         launchInquirer();
-                //     });
+                //launch module function that will trigger query, and relaunch main prompt after
                 modViewAllRoles();
 
             } else if (response.selectTask === "View All Employees") {
-                //some code here that queries for All EMployees
-                // db.viewAllEmployees()
-                //     .then(([allEmployees]) => {
-                //         console.table(allEmployees);
-                //         //then relaunch the prompt from start - launchInquirer();
-                //         launchInquirer();
-                //     });
+                //launch module function that will trigger query, and relaunch main prompt after
                     modViewAllEmployees();
 
             } else if (response.selectTask === "Add a Department") {

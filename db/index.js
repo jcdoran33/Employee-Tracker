@@ -16,6 +16,10 @@ class DB {
     viewAllEmployees () {
         return this.connection.promise().query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON department.id = role.department_id LEFT JOIN employee AS test ON employee.manager_id = employee.id`);
     };
+    //SQL command to add a new Department into the department table
+    addNewDept () {
+        return this.connection.promise().query(`INSERT INTO department SET ?`, newDept);
+    };
     //query to find all employee's id, firrst anme, last name, (for use in selecting a manager form drop down list.)
     findAllEmp () {
         return this.connection.promise().query(`SELECT id, first_name, last_name FROM employee;`)
