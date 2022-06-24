@@ -30,7 +30,7 @@ function launchInquirer() {
                         console.table(viewDepts);
                         //then relaunch the prompt from start - launchInquirer();
                         launchInquirer();
-                    })
+                    });
 
             } else if (response.selectTask === "View All Roles") {
                 //some code here that queries for viewing roles
@@ -39,16 +39,17 @@ function launchInquirer() {
                         console.table(allRoles);
                         //then relaunch the prompt from start - launchInquirer();
                         launchInquirer();
-                    })
+                    });
 
             } else if (response.selectTask === "View All Employees") {
                 //some code here that queries for All EMployees
                 db.viewAllEmployees()
                     .then(([allEmployees]) => {
                         console.table(allEmployees);
-                    })
-                //then relaunch the prompt from start - launchInquirer();
-                launchInquirer();
+                        //then relaunch the prompt from start - launchInquirer();
+                        launchInquirer();
+                    });
+
             } else if (response.selectTask === "Add a Department") {
                 //another inquirer prompt question asking for the name of department, then add that dept to the table
                 inqAddDept();
