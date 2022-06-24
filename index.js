@@ -25,24 +25,28 @@ function launchInquirer() {
             if (response.selectTask === "View All Departments") {
                 //some code here that runs a query that shows the desired table - probably db.query
                 db.viewAllDepartments()
-                .then(([viewDepts]) => {
-                    // console.log(viewDepts, typeof viewDepts);
-                    console.table(viewDepts);
-                    //then relaunch the prompt from start - launchInquirer();
-                    launchInquirer();
-                })
+                    .then(([viewDepts]) => {
+                        // console.log(viewDepts, typeof viewDepts);
+                        console.table(viewDepts);
+                        //then relaunch the prompt from start - launchInquirer();
+                        launchInquirer();
+                    })
 
             } else if (response.selectTask === "View All Roles") {
                 //some code here that queries for viewing roles
                 db.viewAllRoles()
-                .then(([allRoles]) => {
-                    console.table(allRoles);
-                    //then relaunch the prompt from start - launchInquirer();
-                    launchInquirer();
-                })
-                
+                    .then(([allRoles]) => {
+                        console.table(allRoles);
+                        //then relaunch the prompt from start - launchInquirer();
+                        launchInquirer();
+                    })
+
             } else if (response.selectTask === "View All Employees") {
                 //some code here that queries for All EMployees
+                db.viewAllEmployees()
+                    .then(([allEmployees]) => {
+                        console.table(allEmployees);
+                    })
                 //then relaunch the prompt from start - launchInquirer();
                 launchInquirer();
             } else if (response.selectTask === "Add a Department") {
@@ -132,11 +136,11 @@ function inqAddEmployee() {
     //commented out above to try asyn /promise version below
     db.findAllEmp()
         .then(([results]) => {
-            const managerOptions = results.map(({id, first_name, last_name}) => ({
+            const managerOptions = results.map(({ id, first_name, last_name }) => ({
                 name: `${first_name} ${last_name}`,
                 value: id
             }))
-            
+
             inquirer
                 .prompt([
                     {
@@ -162,27 +166,27 @@ function inqAddEmployee() {
                         choices: managerOptions // this should be a variable array, that houses all the employee names that are in the db, so we can select one
                     }
                 ])
-        //closing parentheses for the new .then in line 153
-        .then((response) => {
+                //closing parentheses for the new .then in line 153
+                .then((response) => {
 
-            let newEmp = {
-                first_name: response.empFirstName, 
-                last_name: response.empLastName,
-                //role: response.empRole, // change to ID instead of role name
-                manager_id: response.empManager
-            }
-            db.addNewEmp(newEmp);
+                    let newEmp = {
+                        first_name: response.empFirstName,
+                        last_name: response.empLastName,
+                        //role: response.empRole, // change to ID instead of role name
+                        manager_id: response.empManager
+                    }
+                    db.addNewEmp(newEmp);
 
-            //insert sql function that adds new row to employee table with appropriate info, using ? format
-            // add new employee to array that houses all employees??
-            
+                    //insert sql function that adds new row to employee table with appropriate info, using ? format
+                    // add new employee to array that houses all employees??
+
+                })
+                .then(() => launchInquirer())
+                .catch((err) => {
+                    console.log("ERROR MESSAGE: ", err);
+                });
+            //relaunch launchInquirer();
         })
-        .then(() => launchInquirer())
-        .catch((err) => {
-            console.log("ERROR MESSAGE: ", err);
-        });
-    //relaunch launchInquirer();
-})
 };
 
 //define inquirer prompt for Update an Employee Role
