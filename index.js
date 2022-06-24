@@ -24,31 +24,34 @@ function launchInquirer() {
         .then(async (response) => {
             if (response.selectTask === "View All Departments") {
                 //some code here that runs a query that shows the desired table - probably db.query
-                db.viewAllDepartments()
-                    .then(([viewDepts]) => {
-                        // console.log(viewDepts, typeof viewDepts);
-                        console.table(viewDepts);
-                        //then relaunch the prompt from start - launchInquirer();
-                        launchInquirer();
-                    });
+                // db.viewAllDepartments()
+                //     .then(([viewDepts]) => {
+                //         // console.log(viewDepts, typeof viewDepts);
+                //         console.table(viewDepts);
+                //         //then relaunch the prompt from start - launchInquirer();
+                //         launchInquirer();
+                //     });
+                modViewAllDepts();
 
             } else if (response.selectTask === "View All Roles") {
                 //some code here that queries for viewing roles
-                db.viewAllRoles()
-                    .then(([allRoles]) => {
-                        console.table(allRoles);
-                        //then relaunch the prompt from start - launchInquirer();
-                        launchInquirer();
-                    });
+                // db.viewAllRoles()
+                //     .then(([allRoles]) => {
+                //         console.table(allRoles);
+                //         //then relaunch the prompt from start - launchInquirer();
+                //         launchInquirer();
+                //     });
+                modViewAllRoles();
 
             } else if (response.selectTask === "View All Employees") {
                 //some code here that queries for All EMployees
-                db.viewAllEmployees()
-                    .then(([allEmployees]) => {
-                        console.table(allEmployees);
-                        //then relaunch the prompt from start - launchInquirer();
-                        launchInquirer();
-                    });
+                // db.viewAllEmployees()
+                //     .then(([allEmployees]) => {
+                //         console.table(allEmployees);
+                //         //then relaunch the prompt from start - launchInquirer();
+                //         launchInquirer();
+                //     });
+                    modViewAllEmployees();
 
             } else if (response.selectTask === "Add a Department") {
                 //another inquirer prompt question asking for the name of department, then add that dept to the table
@@ -219,5 +222,44 @@ function inqUpdateEmployeeRole() {
 //launch launchInquirer immediately
 launchInquirer();
 
-// //app.listen
-// app.listen(PORT, () => console.log("The server is up and running!"));
+//==============================================================
+//MODULARIZATION of functions in the main inquirer prompt below
+//==============================================================
+
+// module for View All Departments function
+function modViewAllDepts() {
+    db.viewAllDepartments()
+        .then(([viewDepts]) => {
+            // console.log(viewDepts, typeof viewDepts);
+            console.table(viewDepts);
+            //then relaunch the prompt from start - launchInquirer();
+            launchInquirer();
+        });
+};
+
+//module for View All Roles function
+function modViewAllRoles() {
+    db.viewAllRoles()
+        .then(([allRoles]) => {
+            console.table(allRoles);
+            //then relaunch the prompt from start - launchInquirer();
+            launchInquirer();
+        });
+};
+
+//module for View All Employees function
+function modViewAllEmployees() {
+    db.viewAllEmployees()
+        .then(([allEmployees]) => {
+            console.table(allEmployees);
+            //then relaunch the prompt from start - launchInquirer();
+            launchInquirer();
+        });
+};
+//module for Add a Department
+
+//module for Add a Role
+
+//module for Add an Employee
+
+//Module for Update an Employee
