@@ -24,7 +24,7 @@ function launchInquirer() {
         .then(async (response) => {
             if (response.selectTask === "View All Departments") {
                 //some code here that runs a query that shows the desired table - probably db.query
-                db.findAllDepartments()
+                db.viewAllDepartments()
                 .then(([viewDepts]) => {
                     // console.log(viewDepts, typeof viewDepts);
                     console.table(viewDepts);

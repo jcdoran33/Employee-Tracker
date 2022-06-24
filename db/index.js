@@ -5,7 +5,7 @@ class DB {
         this.connection = connection;
     };
     // query to find all departments
-    findAllDepartments () {
+    viewAllDepartments () {
         return this.connection.promise().query(`SELECT * FROM department;`)
     };
     //query to view all roles
