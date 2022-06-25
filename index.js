@@ -9,6 +9,9 @@ const cTable = require("console.table");
 const db = require("./db");
 const { addNewRole, addNewDept, updateEmpRole } = require("./db");
 
+//attempt to define global variable array for all roles, to be referenced by below inquirer prompts - will push to array each time a new role is added
+let roleOptions = ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"];
+
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
     inquirer
@@ -121,6 +124,8 @@ function inqAddRole() {
                         salary: response.roleSalary,
                         department_id: response.roleDept
                     };
+                    //push the new role to the roleOptions array...
+                    roleOptions.push(response.roleName);
                     //call SQL INSERT function addNewRole() here
                     db.addNewRole(newRole);
                     console.log(`++++++++++Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.++++++++++`);
@@ -159,7 +164,7 @@ function inqAddEmployee() {
                         type: "list",
                         message: "What is the new employee's role?", //for ID, include here a layout in the string, so "What is the new employee's role? (1- Account Manager, 2- General COunsel, etc)"
                         name: "empRole",
-                        // choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] // !should be ID not a slection of role. need to replace this with a variable of current roles? or just role IDS?????
+                        // choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] //replace with dynamic variable
                         choices: roleOptions
                     },
                     {
@@ -175,7 +180,7 @@ function inqAddEmployee() {
                     let newEmp = {
                         first_name: response.empFirstName,
                         last_name: response.empLastName,
-                        //role_id: response.empRole, // change to ID instead of role name ?
+                        role_id: response.empRole, // change to ID instead of role name ? FIX
                         manager_id: response.empManager
                     }
                     db.addNewEmp(newEmp);
