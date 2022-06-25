@@ -143,7 +143,7 @@ function inqAddEmployee() {
                 value: id
             }))
             // console.log("MANAGER NAME TEST: ", managerOptions);
-            
+
             inquirer
                 .prompt([
                     {
@@ -160,7 +160,8 @@ function inqAddEmployee() {
                         type: "list",
                         message: "What is the new employee's role?", //for ID, include here a layout in the string, so "What is the new employee's role? (1- Account Manager, 2- General COunsel, etc)"
                         name: "empRole",
-                        choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] // !should be ID not a slection of role. need to replace this with a variable of current roles? or just role IDS?????
+                        // choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] // !should be ID not a slection of role. need to replace this with a variable of current roles? or just role IDS?????
+                        choices: roleOptions
                     },
                     {
                         type: "list",
@@ -257,3 +258,20 @@ function modViewAllEmployees() {
 //module for Add an Employee
 
 //Module for Update an Employee
+
+
+
+//externalizing the roleOptions list creator...
+function createRoleOptions() {
+    db.findAllRoles()
+        .then(([results]) => {
+            const roleOptions = results.map(({ id, title }) => ({
+                name: title,
+                value: id
+            }))
+            return roleOptions;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
