@@ -10,7 +10,8 @@ class DB {
     };
     //query to view all roles
     viewAllRoles () {
-        return this.connection.promise().query(`SELECT * FROM role;`);
+        // return this.connection.promise().query(`SELECT * FROM role;`); //OG query
+        return this.connection.promise().query(`SELECT role.id, role.title, role.salary, role.department_id, department.name AS department_name FROM role JOIN department ON department.id = role.department_id;`);
     };
     //query to view all employees - double left join - employee id, first name, lst name, job title, department, salary, manager
     viewAllEmployees () {
@@ -42,7 +43,11 @@ class DB {
     };
     //query to update empoyee role - insert changes into table employee - role ID
     updateEmpRole (updatedEmployee) {
-        return this.connection.promise().query(`UPDATE employee SET role_id = ? WHERE employee.id = ?`, (updatedEmployee.title ,updatedEmployee.id));
+        if (typeof(updatedEmployee) == 'undefined') {
+            console.log("updatedEmployee object is undefined!!!");
+        }
+        console.log(typeof connection);
+        return this.connection.promise().query(`UPDATE employee SET role_id = ? WHERE employee.id = ?`, (updatedEmployee.title , updatedEmployee.id));
     };
 };
 
