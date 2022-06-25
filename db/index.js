@@ -13,6 +13,10 @@ class DB {
         // return this.connection.promise().query(`SELECT * FROM role;`); //OG query
         return this.connection.promise().query(`SELECT role.id, role.title, role.salary, role.department_id, department.name AS department_name FROM role JOIN department ON department.id = role.department_id;`);
     };
+    //testing
+    extraViewAllRoles () {
+        return this.connection.promise().query(`SELECT title from role;`)
+    }
     //query to view all employees - double left join - employee id, first name, lst name, job title, department, salary, manager
     viewAllEmployees () {
         return this.connection.promise().query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON department.id = role.department_id LEFT JOIN employee AS test ON employee.manager_id = employee.id`);

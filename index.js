@@ -218,7 +218,7 @@ function inqUpdateEmployeeRole() {
                         type: "list",
                         message: "Select the employee's new role",
                         name: "empNewRoleRole",
-                        choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
+                        choices: roleOptions //global variable array, houses all seed roles and any new roles added via inquirer
                     }
                 ])
                 .then((response) => {
