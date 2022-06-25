@@ -7,6 +7,7 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 const db = require("./db");
+const { addNewRole } = require("./db");
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -74,7 +75,7 @@ function inqAddDept() {
                 name: response.deptName
             };
             console.log(`++++++++++Success! Your new department ${response.deptName} has been added to the departments table.++++++++++`);
-            
+
         })
         .then(() => launchInquirer()) //relaunch launchInquirer();
         .catch((err) => {
@@ -84,43 +85,63 @@ function inqAddDept() {
 
 //define inquirer prompt for Add a Role
 function inqAddRole() {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Enter the name of the new role",
-                name: "roleName"
-            },
-            {
-                type: "input",
-                message: "Enter the salary for this new role",
-                name: "roleSalary"
-            },
-            {
-                type: "list",
-                message: "Enter the department this role will fall under",
-                name: "roleDept",
-                choices: ["Sales", "Finance", "Marketing", "Engineering", "Legal"] // need to fill in this array with role choices
-            }
-        ])
-        .then((response) => {
-            //sql function(s) that will add all the info to the "role" table, use ? for vars
-            console.log(`Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.`);
+
+    db.findAllDepts()
+        .then(([results]) => {
+            const deptOptions = results.map(({ name }) => ({
+                name: name
+                //do we need value: id here to make it work? (and go add ID to query AND add to destructuring above)
+            }))
+            // console.log("DEPT NAME TEST: ", deptOptions);
+
+            inquirer
+                .prompt([
+                    {
+                        type: "input",
+                        message: "Enter the name of the new role",
+                        name: "roleName"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter the salary for this new role",
+                        name: "roleSalary"
+                    },
+                    {
+                        type: "list",
+                        message: "Enter the department this role will fall under",
+                        name: "roleDept",
+                        // choices: ["Sales", "Finance", "Marketing", "Engineering", "Legal"] // need to fill in this array with dept choices
+                        choices: deptOptions // OR should this just be apt ID's? WIth hardcoded key 1=Sales, 2=Finance, etc OR show a table right before so ID/dept associations ar clear
+                    }
+                ])
+                .then((response) => {
+                    //sql function(s) that will add all the info to the "role" table, use ? for vars
+                    let newRole = {
+                        title: response.roleName,
+                        salary: response.roleSalary,
+                        department_id: response.roleDept //need to either swith this result and the inquirer prompt to choose from an ID number, or change something....
+                    };
+                    //call SQL INSERT function addNewRole() here
+                    // db.addNewRole(newRole);
+                    console.log(`Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.`);
+                })
+                .then(() => launchInquirer()) //relaunch launchInquirer();
+                .catch((err) => {
+                    console.log("ERROR MESSAGE: ", err);
+                });
         })
-        .then(() => launchInquirer());
-    //relaunch launchInquirer();
 };
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee() {
 
-    db.findAllEmp(roleOptions)
+    db.findAllEmp()
         .then(([results]) => {
             const managerOptions = results.map(({ id, first_name, last_name }) => ({
                 name: `${first_name} ${last_name}`,
                 value: id
             }))
-
+            console.log("MANAGER NAME TEST: ", managerOptions);
             inquirer
                 .prompt([
                     {
@@ -143,7 +164,7 @@ function inqAddEmployee() {
                         type: "list",
                         message: "Who will be the new employee's manager?",
                         name: "empManager",
-                        choices: managerOptions // this should be a variable array, that houses all the employee names that are in the db, so we can select one
+                        choices: managerOptions // this should be a variable array, that houses all the employee names that are in the db, so we can select one - SHOULD THIS BE IDs and not a name selections?
                     }
                 ])
 
@@ -152,7 +173,7 @@ function inqAddEmployee() {
                     let newEmp = {
                         first_name: response.empFirstName,
                         last_name: response.empLastName,
-                        //role: response.empRole, // change to ID instead of role name
+                        //role: response.empRole, // change to ID instead of role name - may have to create a large IF condition or switch case to handle this?????
                         manager_id: response.empManager
                     }
                     db.addNewEmp(newEmp);

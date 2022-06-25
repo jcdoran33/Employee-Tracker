@@ -17,8 +17,16 @@ class DB {
         return this.connection.promise().query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON department.id = role.department_id LEFT JOIN employee AS test ON employee.manager_id = employee.id`);
     };
     //SQL command to add a new Department into the department table
-    addNewDept () {
+    addNewDept (newDept) {
         return this.connection.promise().query(`INSERT INTO department SET ?`, newDept);
+    };
+    //SQL comman to add a new Role to the role table
+    addNewRole (newRole) {
+        return this.connection.promise().query(`INSERT INTO role SET ?`, newRole);
+    };
+    //query to create a list of all current departments to be references as choices by unquirer
+    findAllDepts () {
+        return this.connection.promise().query(`SELECT name FROM department;`);
     };
     //query to create a list of all current roles to be refrenced as choices by inquirer
     findAllRoles () {
@@ -26,11 +34,11 @@ class DB {
     };
     //query to find all employee's id, firrst anme, last name, (for use in selecting a manager form drop down list.)
     findAllEmp () {
-        return this.connection.promise().query(`SELECT id, first_name, last_name FROM employee;`)
+        return this.connection.promise().query(`SELECT id, first_name, last_name FROM employee;`);
     };
     //query to insert the new employee into the employee tables
     addNewEmp (newEmp) {
-        return this.connection.promise().query(`INSERT INTO employee SET ?`, newEmp)
+        return this.connection.promise().query(`INSERT INTO employee SET ?`, newEmp);
     };
 
 
