@@ -7,7 +7,7 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 const db = require("./db");
-const { addNewRole } = require("./db");
+const { addNewRole, addNewDept } = require("./db");
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -37,19 +37,16 @@ function launchInquirer() {
             } else if (response.selectTask === "Add a Department") {
                 //another inquirer prompt question asking for the name of department, then add that dept to the table
                 inqAddDept();
-                //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else if (response.selectTask === "Add a Role") {
                 //launch another inquirer function that asks for the name, salary, and department for the role and that role is added to the database
                 inqAddRole();
-                //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else if (response.selectTask === "Add an Employee") {
                 //launch a different inquirer function that asks for the employee’s first name, last name, role, and manager, and that employee is added to the database
                 inqAddEmployee();
-                //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
+                // altInqAddEmployee()
             } else if (response.selectTask === "Update an Employee Role") {
                 //launch a inquirer function that prompts us to select an employee to update, then asks for their new role (another selection list), then updates the database
                 inqUpdateEmployeeRole();
-                //then relaunch the prompt from start - launchInquirer(); - **unless handled in external inq prompt below
             } else {
                 console.log("Error (launchInquirer func): There was an issue with your selection, please select which task you would like to do again.");
                 launchInquirer();
@@ -74,6 +71,8 @@ function inqAddDept() {
             let newDept = {
                 name: response.deptName
             };
+            //call the sql command that will insert into the table
+            addNewDept(newDept);
             console.log(`++++++++++Success! Your new department ${response.deptName} has been added to the departments table.++++++++++`);
 
         })
@@ -120,11 +119,11 @@ function inqAddRole() {
                     let newRole = {
                         title: response.roleName,
                         salary: response.roleSalary,
-                        department_id: response.roleDept //need to either swith this result and the inquirer prompt to choose from an ID number, or change something....
+                        department_id: response.roleDept 
                     };
                     //call SQL INSERT function addNewRole() here
-                    // db.addNewRole(newRole);
-                    console.log(`Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.`);
+                    db.addNewRole(newRole);
+                    console.log(`++++++++++Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.++++++++++`);
                 })
                 .then(() => launchInquirer()) //relaunch launchInquirer();
                 .catch((err) => {
@@ -180,6 +179,7 @@ function inqAddEmployee() {
                         manager_id: response.empManager
                     }
                     db.addNewEmp(newEmp);
+                    console.log(`++++++++++Success! The new employee ${first_name} ${last_name} was added to the employee table.++++++++++`)
                 })
                 .then(() => launchInquirer())
                 .catch((err) => {
@@ -188,7 +188,67 @@ function inqAddEmployee() {
         })
 };
 
+//this is a copy of the original inqAddEMployee func, but trying to split the inquirer prompt into two parts, so we can use dynamic variables for the choices
+// function altInqAddEmployee() {
+//     createRoleOptions()
+//     .then(([roleOptions]) => {
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: "input",
+//                     message: "What is the new employee's first name?",
+//                     name: "empFirstName"
+//                 },
+//                 {
+//                     type: "input",
+//                     message: "What is the new employee's last name?",
+//                     name: "empLastName"
+//                 },
+//                 {
+//                     type: "list",
+//                     message: "What is the new employee's role?", //for ID, include here a layout in the string, so "What is the new employee's role? (1- Account Manager, 2- General COunsel, etc)"
+//                     name: "empRole",
+//                     // choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] // !should be ID not a slection of role. need to replace this with a variable of current roles? or just role IDS?????
+//                     choices: roleOptions
+//                 }
+//             ]);
+//     });
+//     db.findAllEmp()
+//         .then(([results]) => {
+//             const managerOptions = results.map(({ id, first_name, last_name }) => ({
+//                 name: `${first_name} ${last_name}`,
+//                 value: id
+//             }))
+//             inquirer
+//                 .prompt([
+//                     {
+//                         type: "list",
+//                         message: "Who will be the new employee's manager?",
+//                         name: "empManager",
+//                         choices: managerOptions 
+//                     }
+//                 ])
+//                 .then((response) => {
+
+//                     let newEmp = {
+//                         first_name: response.empFirstName,
+//                         last_name: response.empLastName,
+//                         //role: response.empRole, // change to ID instead of role name - may have to create a large IF condition or switch case to handle this?????
+//                         manager_id: response.empManager
+//                     }
+//                     db.addNewEmp(newEmp);
+//                 })
+//                 .then(() => launchInquirer())
+//                 .catch((err) => {
+//                     console.log("ERROR MESSAGE: ", err);
+//                 });
+//         })
+
+
+// };
+
 //define inquirer prompt for Update an Employee Role
+
 function inqUpdateEmployeeRole() {
     //HERE is where we create variable that is an array of all current employees (so it will redefine the variable each time it is called upon)
     inquirer
