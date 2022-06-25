@@ -1,5 +1,4 @@
 // requirements
-//Express
 //Mysql
 const mysql = require("mysql2");
 //Inquirer
@@ -71,10 +70,16 @@ function inqAddDept() {
         ])
         .then((response) => {
             //sql function that adds a new row to the "department" table - use ? format for vars
-            console.log(`Success! Your new department ${response.deptName} has been added to the departments table.`);
+            let newDept = {
+                name: response.deptName
+            };
+            console.log(`++++++++++Success! Your new department ${response.deptName} has been added to the departments table.++++++++++`);
+            
         })
-        .then(() => launchInquirer());
-    //relaunch launchInquirer();
+        .then(() => launchInquirer()) //relaunch launchInquirer();
+        .catch((err) => {
+            console.log("ERROR MESSAGE: ", err);
+        });
 };
 
 //define inquirer prompt for Add a Role
@@ -108,7 +113,8 @@ function inqAddRole() {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee() {
-    db.findAllEmp()
+
+    db.findAllEmp(roleOptions)
         .then(([results]) => {
             const managerOptions = results.map(({ id, first_name, last_name }) => ({
                 name: `${first_name} ${last_name}`,
@@ -129,9 +135,9 @@ function inqAddEmployee() {
                     },
                     {
                         type: "list",
-                        message: "What is the new employee's role?",
+                        message: "What is the new employee's role?", //for ID, include here a layout in the string, so "What is the new employee's role? (1- Account Manager, 2- General COunsel, etc)"
                         name: "empRole",
-                        choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
+                        choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] // !should be ID not a slection of role. need to replace this with a variable of current roles? or just role IDS?????
                     },
                     {
                         type: "list",
@@ -140,6 +146,7 @@ function inqAddEmployee() {
                         choices: managerOptions // this should be a variable array, that houses all the employee names that are in the db, so we can select one
                     }
                 ])
+
                 .then((response) => {
 
                     let newEmp = {
