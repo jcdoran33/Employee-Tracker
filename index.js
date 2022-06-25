@@ -7,7 +7,7 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 const db = require("./db");
-const { addNewRole, addNewDept, udpdateEmpRole } = require("./db");
+const { addNewRole, addNewDept, updateEmpRole } = require("./db");
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -280,11 +280,11 @@ function inqUpdateEmployeeRole() {
                     //create updatedEmployee object
                     let updatedEmployee = {
                         id: response.empNewRoleSelect,
-                        role_id: response.empNewRoleRole
+                        title: response.empNewRoleRole
                     };
 
                     //call SQL func to update the new employee's role - pass in the obj above
-                    udpdateEmpRole(updatedEmployee);
+                    updateEmpRole(updatedEmployee);
                     console.log(`++++++++++Success! Updated the employee's role!++++++++++`);
                 })
                 .then(() => launchInquirer()) //relaunch launchInquirer();
