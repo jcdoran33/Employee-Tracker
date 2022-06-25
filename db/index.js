@@ -26,7 +26,7 @@ class DB {
     };
     //query to create a list of all current departments to be references as choices by unquirer
     findAllDepts () {
-        return this.connection.promise().query(`SELECT name FROM department;`);
+        return this.connection.promise().query(`SELECT id, name FROM department;`);
     };
     //query to create a list of all current roles to be refrenced as choices by inquirer
     findAllRoles () {

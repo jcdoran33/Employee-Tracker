@@ -88,8 +88,9 @@ function inqAddRole() {
 
     db.findAllDepts()
         .then(([results]) => {
-            const deptOptions = results.map(({ name }) => ({
-                name: name
+            const deptOptions = results.map(({ id, name }) => ({
+                name: name,
+                value: id
                 //do we need value: id here to make it work? (and go add ID to query AND add to destructuring above)
             }))
             // console.log("DEPT NAME TEST: ", deptOptions);
