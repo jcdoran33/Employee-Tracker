@@ -285,9 +285,12 @@ function inqUpdateEmployeeRole() {
 
                     //call SQL func to update the new employee's role - pass in the obj above
                     udpdateEmpRole(updatedEmployee);
+                    console.log(`++++++++++Success! Updated the employee's role!++++++++++`);
                 })
-                .then(() => launchInquirer()); //relaunch launchInquirer();
-            
+                .then(() => launchInquirer()) //relaunch launchInquirer();
+                .catch((err) => {
+                    console.log("ERROR MESSAGE: ", err);
+                });
         }); //closing paras of new .this
 };
 
