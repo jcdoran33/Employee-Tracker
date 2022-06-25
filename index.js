@@ -7,7 +7,7 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 const db = require("./db");
-const { addNewRole, addNewDept } = require("./db");
+const { addNewRole, addNewDept, udpdateEmpRole } = require("./db");
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -119,7 +119,7 @@ function inqAddRole() {
                     let newRole = {
                         title: response.roleName,
                         salary: response.roleSalary,
-                        department_id: response.roleDept 
+                        department_id: response.roleDept
                     };
                     //call SQL INSERT function addNewRole() here
                     db.addNewRole(newRole);
@@ -175,7 +175,7 @@ function inqAddEmployee() {
                     let newEmp = {
                         first_name: response.empFirstName,
                         last_name: response.empLastName,
-                        //role: response.empRole, // change to ID instead of role name - may have to create a large IF condition or switch case to handle this?????
+                        //role_id: response.empRole, // change to ID instead of role name ?
                         manager_id: response.empManager
                     }
                     db.addNewEmp(newEmp);
@@ -251,26 +251,44 @@ function inqAddEmployee() {
 
 function inqUpdateEmployeeRole() {
     //HERE is where we create variable that is an array of all current employees (so it will redefine the variable each time it is called upon)
-    inquirer
-        .prompt([
-            {
-                type: "list",
-                message: "Select an employee to change their role",
-                name: "empNewRoleSelect",
-                choices: ["Example"] // need to replace this with a variable that represents all current employees
-            },
-            {
-                type: "list",
-                message: "Select the employee's new role",
-                name: "empNewRoleRole",
-                choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
-            }
-        ])
-        .then((response) => {
-            //sql function that edits the chosen employee's row with new role
-        })
-        .then(() => launchInquirer());
-    //relaunch launchInquirer();
+    //call sql query fro a list of employees
+    db.findAllEmp()
+        .then(([results]) => {
+            const empOptions = results.map(({ id, first_name, last_name }) => ({
+                name: `${first_name} ${last_name}`,
+                value: id
+            }))
+
+            //launch inquirer
+            inquirer
+                .prompt([
+                    {
+                        type: "list",
+                        message: "Select an employee to change their role",
+                        name: "empNewRoleSelect",
+                        choices: empOptions // a variable array that represents all current employees
+                    },
+                    {
+                        type: "list",
+                        message: "Select the employee's new role",
+                        name: "empNewRoleRole",
+                        choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"]
+                    }
+                ])
+                .then((response) => {
+                    //sql function that edits the chosen employee's row with new role
+                    //create updatedEmployee object
+                    let updatedEmployee = {
+                        id: response.empNewRoleSelect,
+                        role_id: response.empNewRoleRole
+                    };
+
+                    //call SQL func to update the new employee's role - pass in the obj above
+                    udpdateEmpRole(updatedEmployee);
+                })
+                .then(() => launchInquirer()); //relaunch launchInquirer();
+            
+        }); //closing paras of new .this
 };
 
 

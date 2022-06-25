@@ -40,7 +40,10 @@ class DB {
     addNewEmp (newEmp) {
         return this.connection.promise().query(`INSERT INTO employee SET ?`, newEmp);
     };
-
+    //query to update empoyee role - insert changes into table employee - role ID
+    udpdateEmpRole (updatedEmployee) {
+        return this.connection.promise().query(`UPDATE employee SET role_id = ? WHERE employee.id = ?`, (updatedEmployee.role_id ,updatedEmployee.id) )
+    };
 
 }
 
