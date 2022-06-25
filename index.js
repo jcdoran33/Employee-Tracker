@@ -142,7 +142,8 @@ function inqAddEmployee() {
                 name: `${first_name} ${last_name}`,
                 value: id
             }))
-            console.log("MANAGER NAME TEST: ", managerOptions);
+            // console.log("MANAGER NAME TEST: ", managerOptions);
+            
             inquirer
                 .prompt([
                     {
