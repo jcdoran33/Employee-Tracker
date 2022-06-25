@@ -188,65 +188,6 @@ function inqAddEmployee() {
         })
 };
 
-//this is a copy of the original inqAddEMployee func, but trying to split the inquirer prompt into two parts, so we can use dynamic variables for the choices
-// function altInqAddEmployee() {
-//     createRoleOptions()
-//     .then(([roleOptions]) => {
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: "input",
-//                     message: "What is the new employee's first name?",
-//                     name: "empFirstName"
-//                 },
-//                 {
-//                     type: "input",
-//                     message: "What is the new employee's last name?",
-//                     name: "empLastName"
-//                 },
-//                 {
-//                     type: "list",
-//                     message: "What is the new employee's role?", //for ID, include here a layout in the string, so "What is the new employee's role? (1- Account Manager, 2- General COunsel, etc)"
-//                     name: "empRole",
-//                     // choices: ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"] // !should be ID not a slection of role. need to replace this with a variable of current roles? or just role IDS?????
-//                     choices: roleOptions
-//                 }
-//             ]);
-//     });
-//     db.findAllEmp()
-//         .then(([results]) => {
-//             const managerOptions = results.map(({ id, first_name, last_name }) => ({
-//                 name: `${first_name} ${last_name}`,
-//                 value: id
-//             }))
-//             inquirer
-//                 .prompt([
-//                     {
-//                         type: "list",
-//                         message: "Who will be the new employee's manager?",
-//                         name: "empManager",
-//                         choices: managerOptions 
-//                     }
-//                 ])
-//                 .then((response) => {
-
-//                     let newEmp = {
-//                         first_name: response.empFirstName,
-//                         last_name: response.empLastName,
-//                         //role: response.empRole, // change to ID instead of role name - may have to create a large IF condition or switch case to handle this?????
-//                         manager_id: response.empManager
-//                     }
-//                     db.addNewEmp(newEmp);
-//                 })
-//                 .then(() => launchInquirer())
-//                 .catch((err) => {
-//                     console.log("ERROR MESSAGE: ", err);
-//                 });
-//         })
-
-
-// };
-
 //define inquirer prompt for Update an Employee Role
 
 function inqUpdateEmployeeRole() {
@@ -282,8 +223,8 @@ function inqUpdateEmployeeRole() {
                         id: response.empNewRoleSelect,
                         title: response.empNewRoleRole
                     };
-
                     //call SQL func to update the new employee's role - pass in the obj above
+                    console.log(updatedEmployee);
                     updateEmpRole(updatedEmployee);
                     console.log(`++++++++++Success! Updated the employee's role!++++++++++`);
                 })
