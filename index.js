@@ -9,12 +9,12 @@ const cTable = require("console.table");
 const db = require("./db");
 const { addNewRole, addNewDept, updateEmpRole } = require("./db");
 
-//attempt to define global variable array for all roles, to be referenced by below inquirer prompts - will push to array each time a new role is added
-// let roleOptions = ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"];
 let roleOptions = [{name: "Account Manager", value: 1}, {name: "General Counsel", value: 2}, {name: "Salesperson", value: 3}, {name: "Accountant", value: 4}, {name: "Marketing Lead", value: 5}, {name: "CFO", value: 6}, {name: "Outside Sales", value: 7}];
 
-//inquirer launch here (wrap it in a function?)
+
+//inquirer launch here 
 function launchInquirer() {
+    
     inquirer
         .prompt([
             {
@@ -112,8 +112,7 @@ function inqAddRole() {
                         type: "list",
                         message: "Enter the department this role will fall under",
                         name: "roleDept",
-                        // choices: ["Sales", "Finance", "Marketing", "Engineering", "Legal"] // need to fill in this array with dept choices
-                        choices: deptOptions // OR should this just be apt ID's? WIth hardcoded key 1=Sales, 2=Finance, etc OR show a table right before so ID/dept associations ar clear
+                        choices: deptOptions 
                     }
                 ])
                 .then((response) => {
@@ -142,7 +141,7 @@ function inqAddRole() {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee() {
-
+ 
     db.findAllEmp()
         .then(([results]) => {
             const managerOptions = results.map(({ id, first_name, last_name }) => ({
@@ -287,7 +286,7 @@ function modViewAllEmployees() {
 // function createRoleOptions() {
 //     db.findAllRoles()
 //         .then(([results]) => {
-//             const roleOptions = results.map(({ id, title }) => ({
+//             roleOptions = results.map(({ id, title }) => ({
 //                 name: title,
 //                 value: id
 //             }))
