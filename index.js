@@ -47,7 +47,6 @@ function launchInquirer() {
             } else if (response.selectTask === "Add an Employee") {
                 //launch a different inquirer function that asks for the employee’s first name, last name, role, and manager, and that employee is added to the database
                 inqAddEmployee();
-                // altInqAddEmployee()
             } else if (response.selectTask === "Update an Employee Role") {
                 //launch a inquirer function that prompts us to select an employee to update, then asks for their new role (another selection list), then updates the database
                 inqUpdateEmployeeRole();
@@ -185,8 +184,10 @@ function inqAddEmployee() {
                         manager_id: response.empManager
                     }
                     db.addNewEmp(newEmp);
-                    console.log(`++++++++++Success! The new employee ${newEmp.first_name} ${newEmp.last_name} was added to the employee table.++++++++++`)
+                    console.log(`++++++++++Success! The new employee ${newEmp.first_name} ${newEmp.last_name} was added to the employee table.++++++++++`);
+                    modViewAllEmployeesNoRelaunch();
                 })
+                // .then(() => modViewAllEmployeesNoRelaunch())
                 .then(() => launchInquirer())
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
@@ -279,6 +280,16 @@ function modViewAllEmployees() {
             launchInquirer();
         });
 };
+
+//copy of above function, removed the call of launchinquirer
+function modViewAllEmployeesNoRelaunch () {
+    db.viewAllEmployees()
+        .then(([allEmployees]) => {
+            console.table(allEmployees);
+            //DOES NOT relaunch main inquirer prompt
+        });
+};
+
 //module for Add a Department
 
 //module for Add a Role
