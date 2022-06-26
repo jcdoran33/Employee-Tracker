@@ -77,9 +77,8 @@ function inqAddDept() {
             //call the sql command that will insert into the table
             db.addNewDept(newDept);
             console.log(`++++++++++Success! Your new department ${response.deptName} has been added to the departments table.++++++++++`);
-
+            modViewAllDepts();
         })
-        .then(() => launchInquirer()) //relaunch launchInquirer();
         .catch((err) => {
             console.log("ERROR MESSAGE: ", err);
         });
@@ -131,7 +130,6 @@ function inqAddRole() {
                     console.log(`++++++++++Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.++++++++++`);
                     modViewAllRoles();
                 })
-                // .then(() => launchInquirer()) //relaunch launchInquirer();
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
                 });
@@ -188,7 +186,6 @@ function inqAddEmployee() {
                     console.log(`++++++++++Success! The new employee ${newEmp.first_name} ${newEmp.last_name} was added to the employee table.++++++++++`);
                     modViewAllEmployees();
                 })
-                // .then(() => launchInquirer())
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
                 });
@@ -278,15 +275,6 @@ function modViewAllEmployees() {
             console.table(allEmployees);
             //then relaunch the prompt from start - launchInquirer();
             launchInquirer();
-        });
-};
-
-//copy of above function, removed the call of launchinquirer
-function modViewAllEmployeesNoRelaunch () {
-    db.viewAllEmployees()
-        .then(([allEmployees]) => {
-            console.table(allEmployees);
-            //DOES NOT relaunch main inquirer prompt
         });
 };
 
