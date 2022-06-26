@@ -228,11 +228,11 @@ function inqUpdateEmployeeRole() {
                         title: response.empNewRoleRole
                     };
                     //call SQL func to update the new employee's role - pass in the obj above
-                    console.log(updatedEmployee);
+                    // console.log(updatedEmployee);
                     db.updateEmpRole(updatedEmployee);
                     console.log(`++++++++++Success! Updated the employee's role!++++++++++`);
+                    modViewAllEmployees();
                 })
-                .then(() => launchInquirer()) //relaunch launchInquirer();
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
                 });
@@ -278,27 +278,18 @@ function modViewAllEmployees() {
         });
 };
 
-//module for Add a Department
-
-//module for Add a Role
-
-//module for Add an Employee
-
-//Module for Update an Employee
-
-
 
 //externalizing the roleOptions list creator...
-function createRoleOptions() {
-    db.findAllRoles()
-        .then(([results]) => {
-            const roleOptions = results.map(({ id, title }) => ({
-                name: title,
-                value: id
-            }))
-            return roleOptions;
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
+// function createRoleOptions() {
+//     db.findAllRoles()
+//         .then(([results]) => {
+//             const roleOptions = results.map(({ id, title }) => ({
+//                 name: title,
+//                 value: id
+//             }))
+//             return roleOptions;
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         });
+// };

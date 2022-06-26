@@ -50,8 +50,8 @@ class DB {
         if (typeof(updatedEmployee) == 'undefined') {
             console.log("updatedEmployee object is undefined!!!");
         }
-        console.log(typeof connection);
-        return this.connection.promise().query(`UPDATE employee SET role_id = ? WHERE employee.id = ?`, (updatedEmployee.title , updatedEmployee.id));
+        // console.log(typeof connection);
+        return this.connection.promise().query(`UPDATE employee SET role_id = ? WHERE employee.id = ?`, [updatedEmployee.title , updatedEmployee.id]);
     };
 };
 
