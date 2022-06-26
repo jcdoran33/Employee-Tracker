@@ -11,7 +11,7 @@ const { addNewRole, addNewDept, updateEmpRole } = require("./db");
 
 //attempt to define global variable array for all roles, to be referenced by below inquirer prompts - will push to array each time a new role is added
 // let roleOptions = ["Account Manager", "General Counsel", "Salesperson", "Accountant", "Marketing Lead", "CFO", "Outside Sales"];
-let roleOptions = [{name: "Account Manager", value: 1}, {name: "General Counsel", value: 2}, {name: "Salesperson", value: 3}, {name: "Accountant", value: 4}, {name: "Marketing Lead", value: 5}, {name: "CFO", value: 6}, {name: "Outside Sales", value: 6}];
+let roleOptions = [{name: "Account Manager", value: 1}, {name: "General Counsel", value: 2}, {name: "Salesperson", value: 3}, {name: "Accountant", value: 4}, {name: "Marketing Lead", value: 5}, {name: "CFO", value: 6}, {name: "Outside Sales", value: 7}];
 
 //inquirer launch here (wrap it in a function?)
 function launchInquirer() {
@@ -124,7 +124,11 @@ function inqAddRole() {
                         department_id: response.roleDept
                     };
                     //push the new role to the roleOptions array...
-                    roleOptions.push(response.roleName);
+                    // roleOptions.push(response.roleName); //need to make this match object format
+                    roleOptions.push({
+                        name: response.roleName,
+                        value: (roleOptions.length +1)
+                    });
                     //call SQL INSERT function addNewRole() here
                     db.addNewRole(newRole);
                     console.log(`++++++++++Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.++++++++++`);
