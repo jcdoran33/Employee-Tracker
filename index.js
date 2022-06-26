@@ -75,7 +75,7 @@ function inqAddDept() {
                 name: response.deptName
             };
             //call the sql command that will insert into the table
-            addNewDept(newDept);
+            db.addNewDept(newDept);
             console.log(`++++++++++Success! Your new department ${response.deptName} has been added to the departments table.++++++++++`);
 
         })
@@ -230,7 +230,7 @@ function inqUpdateEmployeeRole() {
                     };
                     //call SQL func to update the new employee's role - pass in the obj above
                     console.log(updatedEmployee);
-                    updateEmpRole(updatedEmployee);
+                    db.updateEmpRole(updatedEmployee);
                     console.log(`++++++++++Success! Updated the employee's role!++++++++++`);
                 })
                 .then(() => launchInquirer()) //relaunch launchInquirer();
