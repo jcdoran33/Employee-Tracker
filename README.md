@@ -10,7 +10,7 @@ This application uses [Node.js](https://nodejs.org/en/). [MySQL(2)](https://www.
 
 ## Link to Screencapture of Application in Action
 
-[Google Drive Link to Screencapture Video](https://drive.google.com/file/d/1TI7LB5norCGkzJkgfrtmcr1Unue3q71-/view?usp=sharing)
+[Google Drive Link to Screencapture Video](https://drive.google.com/file/d/1onR5qpbkEMgzuforNjmK541uWih9Fafi/view?usp=sharing)
 
 ## Link to Github Repository
 
