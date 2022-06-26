@@ -9,12 +9,12 @@ const cTable = require("console.table");
 const db = require("./db");
 const { addNewRole, addNewDept, updateEmpRole } = require("./db");
 
-let roleOptions = [{name: "Account Manager", value: 1}, {name: "General Counsel", value: 2}, {name: "Salesperson", value: 3}, {name: "Accountant", value: 4}, {name: "Marketing Lead", value: 5}, {name: "CFO", value: 6}, {name: "Outside Sales", value: 7}];
+let roleOptions = [{ name: "Account Manager", value: 1 }, { name: "General Counsel", value: 2 }, { name: "Salesperson", value: 3 }, { name: "Accountant", value: 4 }, { name: "Marketing Lead", value: 5 }, { name: "CFO", value: 6 }, { name: "Outside Sales", value: 7 }];
 
 
 //inquirer launch here 
 function launchInquirer() {
-    
+
     inquirer
         .prompt([
             {
@@ -112,7 +112,7 @@ function inqAddRole() {
                         type: "list",
                         message: "Enter the department this role will fall under",
                         name: "roleDept",
-                        choices: deptOptions 
+                        choices: deptOptions
                     }
                 ])
                 .then((response) => {
@@ -126,7 +126,7 @@ function inqAddRole() {
                     // roleOptions.push(response.roleName); //need to make this match object format
                     roleOptions.push({
                         name: response.roleName,
-                        value: (roleOptions.length +1)
+                        value: (roleOptions.length + 1)
                     });
                     //call SQL INSERT function addNewRole() here
                     db.addNewRole(newRole);
@@ -141,7 +141,7 @@ function inqAddRole() {
 
 //define inquirer prompt for Add an Employee
 function inqAddEmployee() {
- 
+
     db.findAllEmp()
         .then(([results]) => {
             const managerOptions = results.map(({ id, first_name, last_name }) => ({
