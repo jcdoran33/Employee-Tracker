@@ -129,8 +129,9 @@ function inqAddRole() {
                     //call SQL INSERT function addNewRole() here
                     db.addNewRole(newRole);
                     console.log(`++++++++++Success! Your new role ${response.roleName} has been added to the roles table, with a salary of ${response.roleSalary}.++++++++++`);
+                    modViewAllRoles();
                 })
-                .then(() => launchInquirer()) //relaunch launchInquirer();
+                // .then(() => launchInquirer()) //relaunch launchInquirer();
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
                 });
@@ -185,10 +186,9 @@ function inqAddEmployee() {
                     }
                     db.addNewEmp(newEmp);
                     console.log(`++++++++++Success! The new employee ${newEmp.first_name} ${newEmp.last_name} was added to the employee table.++++++++++`);
-                    modViewAllEmployeesNoRelaunch();
+                    modViewAllEmployees();
                 })
-                // .then(() => modViewAllEmployeesNoRelaunch())
-                .then(() => launchInquirer())
+                // .then(() => launchInquirer())
                 .catch((err) => {
                     console.log("ERROR MESSAGE: ", err);
                 });
