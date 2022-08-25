@@ -8,6 +8,9 @@ This application is a miniature content management system, used to view, add to,
 
 This application uses [Node.js](https://nodejs.org/en/). [MySQL(2)](https://www.npmjs.com/package/mysql2) was used to enable query from and writing to the database. The [console.table package](https://www.npmjs.com/package/console.table) was used to render tables cleary in the command terminal. [Express.js](https://expressjs.com/) is used for routing, and the [Inquirer](https://www.npmjs.com/package/inquirer) package was used for prompting the user with questions.
 
+## Screenshot
+![app-screenshot](./images/screenshot.png)
+
 ## Link to Screencapture of Application in Action
 
 [Google Drive Link to Screencapture Video](https://drive.google.com/file/d/1onR5qpbkEMgzuforNjmK541uWih9Fafi/view?usp=sharing)
